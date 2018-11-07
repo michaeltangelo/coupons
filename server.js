@@ -7,7 +7,7 @@ const path = require('path');
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 
-const dbRoute = 'mongodb://ds155243.mlab.com:55243/mt-bcoupon';
+const dbRoute = 'mongodb://dev:jigglypuffsucks1@ds155243.mlab.com:55243/mt-bcoupon';
 
 mongoose.connect(
   dbRoute,
