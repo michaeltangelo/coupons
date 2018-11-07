@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { CookiesProvider } from 'react-cookie';
 import theme from './theme';
-// import logo from './logo.svg';
+// import logofrom './logo.svg';
 import './App.css';
 
 import Main from './components/Main.react';
