@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { CookiesProvider } from 'react-cookie';
 import theme from './theme';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 
 import Main from './components/Main.react';
@@ -19,7 +20,7 @@ class App extends Component {
   }
 
   initBackend = async() => {
-    const response = await fetch('/express_backend');
+    const response = await fetch('/api/coupons');
     const body = await response.json();
 
     if (response.status !== 200) {
@@ -31,10 +32,12 @@ class App extends Component {
 
   render() {
     return (
-      <MuiThemeProvider theme={theme}>
-        <Navbar />
-        <Main />
-      </MuiThemeProvider>
+      <CookiesProvider>
+        <MuiThemeProvider theme={theme}>
+          <Navbar />
+          <Main />
+        </MuiThemeProvider>
+      </CookiesProvider>
     )
   }
 }

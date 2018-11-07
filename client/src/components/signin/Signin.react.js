@@ -48,11 +48,6 @@ const styles = theme => ({
 });
 
 class SignIn extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  // const {classes} = this.props;
 
   onSubmitClicked(e) {
     e.preventDefault();

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import theme from './../../theme';
+// import theme from './../../theme';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
+// import CardActionArea from '@material-ui/core/CardActionArea';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+// import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 
 
@@ -34,10 +34,8 @@ class Coupon extends Component {
     switch (num) {
       case 0:
         return 'Redeem Coupon';
-        break;
       case 1:
         return 'Press to Confirm';
-        break;
       default:
         return 'Redeemed';
     }
@@ -81,7 +79,7 @@ class Coupon extends Component {
     return (
       <Card className={classes.card}>
         <CardHeader
-          title="Free Trip to San Francisco, CA"
+          title={title}
           // subheader="Terms and conditions apply"
         />
         <CardContent className={classes.content}>
@@ -89,7 +87,7 @@ class Coupon extends Component {
             Lizard
           </Typography> */}
           <Typography component="p">
-            One free trip to San Francisco, paid for in full.
+            {description}
           </Typography>
           {/* <CardMedia
             component="img"

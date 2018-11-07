@@ -1,22 +1,56 @@
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import React, { Component } from 'react';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+// import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import PropTypes from 'prop-types';
-import theme from './../theme';
+// import theme from './../theme';
 import { withStyles, withTheme } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
+// import GridList from '@material-ui/core/GridList';
+// import GridListTile from '@material-ui/core/GridListTile';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 import Coupon from './coupon/Coupon.react';
 
 // Main coupon scrolling page
 class Home extends Component {
+  state = {
+    coupons: null,
+  };
+
+  componentDidMount() {
+    const { cookies } = this.props;
+    const users = cookies.get('user');
+    console.log(users);
+
+    this.fetchCoupons()
+    .then(res => {
+      this.setState({ coupons: res.message });
+      const expiration = new Date();
+      expiration.setDate(expiration.getDate() + 30);
+
+      cookies.set('user', 'wejfpwoefj', { path: '/', expires: expiration });
+    })
+    .catch(err => console.log(err));
+  }
+
+  fetchCoupons = async() => {
+    const response = await fetch('/api/coupons');
+    const body = await response.json();
+
+    if (response.status !== 200) {
+      console.log('throwing error');
+      throw Error(body.message)
+    }
+    return body;
+  };
 
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
+        <Typography>
+          {`Our state: ${this.state.coupons}`}
+        </Typography>
         <Grid className={classes.grid} container spacing={16}>
           <Grid item xs={12} sm={6} className={classes.gridItemRight}>
             <Coupon

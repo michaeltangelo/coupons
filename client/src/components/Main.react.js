@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from './Home.react';
 import Signin from './signin/Signin.react';
+import { withCookies } from 'react-cookie';
 
 
 class Main extends Component {
@@ -13,7 +14,11 @@ class Main extends Component {
             <Signin {...props}/>
           )}/> */}
         <Route exact path='/' component={Signin}/>
-        <Route path='/home' component={Home}/>
+        <Route
+          path='/home'
+          render={() => (<Home cookies={this.props.cookies}/>)}
+          />
+          {/* component={Home}/> */}
         {/* <Route path='/roster' component={Roster}/>
         <Route path='/schedule' component={Schedule}/> */}
       </Switch>
@@ -21,4 +26,4 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default withCookies(Main);
