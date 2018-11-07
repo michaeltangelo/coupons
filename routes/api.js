@@ -5,7 +5,8 @@ const uuid = require('uuid/v5');
 // MongoDB requires
 const mongoose = require('mongoose');
 const Coupon = require('../schemas/CouponSchema.js');
-const User = require('../schemas/UserSchema.js')
+const User = require('../schemas/UserSchema.js');
+const Secret = require('../schemas/SecretSchema.js');
 
 // bcrypt settings
 const bcrypt = require('bcrypt');
@@ -16,41 +17,47 @@ routes.get('/testconn', (req, res) => {
   res.json({ message: 'Ok!' });
 });
 
-routes.get('/coupons', (req, res) => {
+routes.get('/coupons', (req, res, err) => {
+  if (err) throw err;
   console.log('Received request for coupons');
-  // req.someidentifyingproperty
-  // uuid4, send back
-  const time = new Date().toLocaleTimeString();
-  const sessionToken = uuid(time, '8e884ace-be33-11e4-8dfc-aa07a5b093db');
-  res.json({ message: sessionToken });
 });
 
 routes.post('/verifyToken', (req, res) => {
-  console.log(req.body);
-});
-
-routes.post('/authenticate', (req, res) => {
-  const db = mongoose.connection;
-  const hash = bcrypt.hashSync('', saltRounds);
-  // bcrypt.compareSync(myPlaintextPassword, hash);
-  // console.log(hash);
-  const newUser = new User({
-    token: new Date().toLocaleTimeString(),
-  });
-
-  // newUser.save(function(err) {
-  //   if (err) throw err;
-  //   console.log('saved!');
-  // });
-
-  User.findOne({ 'token': '3:59:05 AM' }, (err, user) => {
+  const userToken = req.body.userToken;
+  User.findOne({ 'token': userToken }, (err, user) => {
     if (err) throw err;
     if (user === null) {
-      console.log('Could not find matching token.');
+      console.log(`Could not find token matching ${userToken}`);
       res.json({ message: 'fail' });
     } else {
       console.log('Token successfully matched.');
       res.json({ message: 'ok' });
+    }
+  });
+});
+
+routes.post('/authenticate', (req, res) => {
+  const db = mongoose.connection;
+  // const storedHash = "$2b$10$NlfnFUjiEnnZuSSLR4hDse2OFbl4f5U4G/dq9m//oyOdNA5RQam.O";
+
+  db.collection('secret').findOne({}, (err, secret) => {
+    if (err) throw err;
+    const storedHash = secret.hash;
+    if (bcrypt.compareSync(req.body.password, storedHash)) {
+      const time = new Date().toLocaleTimeString();
+      const sessionToken = uuid(time, '8e884ace-be33-11e4-8dfc-aa07a5b093db');
+      const newUser = new User({
+        token: sessionToken,
+      });
+      newUser.save(function(err) {
+        if (err) throw err;
+        console.log(`sessionToken (${sessionToken}) successfully saved in backend`);
+      });
+      console.log(`Password hash matched. Delivering sessionToken (${sessionToken})`);
+      res.json({ message: 'ok', sessionToken: sessionToken });
+    } else {
+      console.log('Incorrect password.');
+      res.json({ message: 'fail' });
     }
   });
 });
