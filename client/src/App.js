@@ -9,27 +9,6 @@ import Main from './components/Main.react';
 import Navbar from './components/navbar/Navbar.react';
 
 class App extends Component {
-  state = {
-    data: null
-  };
-
-  componentDidMount() {
-    this.initBackend()
-    .then(res => this.setState({ data: res.express }))
-    .catch(err => console.log(err));
-  }
-
-  initBackend = async() => {
-    const response = await fetch('/api/coupons');
-    const body = await response.json();
-
-    if (response.status !== 200) {
-      console.log('throwing error');
-      throw Error(body.message)
-    }
-    return body;
-  };
-
   render() {
     return (
       <CookiesProvider>

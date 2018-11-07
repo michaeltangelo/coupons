@@ -5,18 +5,13 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockIcon from '@material-ui/icons/LockOutlined';
 import LockOpenIcon from '@material-ui/icons/LockOpenOutlined';
 import Paper from '@material-ui/core/Paper';
-import green from '@material-ui/core/colors/green';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-
-import history from '../../history';
 
 const styles = theme => ({
   layout: {
@@ -77,7 +72,6 @@ class SignIn extends Component {
   }
 
   componentDidMount = (props) => {
-    console.log(`is signin authed?: ` + this.props.authed);
     const { authed } = this.props;
     if (authed) {
       // we pass in an empty string to indicate that we are already authenticated
@@ -116,7 +110,6 @@ class SignIn extends Component {
     const body = await response.json();
 
     if (response.status !== 200) {
-      console.log('throwing error');
       throw Error(body.message)
     }
     return body;

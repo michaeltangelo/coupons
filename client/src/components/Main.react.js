@@ -30,18 +30,16 @@ class Main extends Component {
     const { cookies } = this.props;
     // can be null
     const userToken = cookies.get('sessionToken');
-    console.log(userToken);
 
     if (userToken !== undefined) {
       this.verifyTokenStatus(userToken)
       .then(res => {
-        console.log(res.message);
         this.setState({ authed: res.message === 'ok' ? true : false });
         history.push('/home');
       })
       .catch(err => console.log(err));
     } else {
-      console.log('no cookie, redirecting to signup')
+      // allow Switch component to route to Signin
     }
   }
 
@@ -77,7 +75,6 @@ class Main extends Component {
   }
 
   render() {
-    console.log(`my auth state: ${this.state.authed}`);
     return (
       <Switch>
         <Route

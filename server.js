@@ -6,7 +6,7 @@ const port = process.env.PORT || 5000;
 const path = require('path');
 const mongoose = require('mongoose');
 
-const dbRoute = process.env.MONGO_URI || 'mongodb://ds155243.mlab.com:55243/mt-bcoupon';
+const dbRoute = process.env.MONGO_URI || 'mongodb://dev:jigglypuffsucks1@ds155243.mlab.com:55243/mt-bcoupon';
 
 mongoose.connect(
   dbRoute,
@@ -27,13 +27,12 @@ app.use(bodyParser.json());
 // Routes
 ////////////////////
 app.use('/api', apiRoutes);
-app.use('/static', express.static(path.join(__dirname, 'client/static/')));
+
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
-
-// create a GET route
-app.get('/express_backend', (req, res) => {
-  console.log('wepfojawpeof');
-  res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' });
-});

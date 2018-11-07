@@ -12,14 +12,9 @@ const Secret = require('../schemas/SecretSchema.js');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-routes.get('/testconn', (req, res) => {
-  console.log('client hit our test endpoint');
-  res.json({ message: 'Ok!' });
-});
-
-routes.get('/coupons', (req, res, err) => {
-  if (err) throw err;
+routes.get('/coupons', (req, res) => {
   console.log('Received request for coupons');
+  res.json({ coupons: 'here are some coupons'});
 });
 
 routes.post('/verifyToken', (req, res) => {
