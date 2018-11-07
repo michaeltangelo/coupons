@@ -3,10 +3,9 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
   {
-    id: Number,
-    message: String
+    token: String,
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('User', CouponSchema);
+module.exports = mongoose.model('User', UserSchema);

@@ -18,14 +18,15 @@ class Home extends Component {
   };
 
   componentDidMount() {
+    console.log(this.props);
     const { cookies } = this.props;
     const users = cookies.get('user');
-    console.log(users);
 
     this.fetchCoupons()
     .then(res => {
       this.setState({ coupons: res.message });
       const expiration = new Date();
+      // Set expiration date to one month
       expiration.setDate(expiration.getDate() + 30);
 
       cookies.set('user', 'wejfpwoefj', { path: '/', expires: expiration });

@@ -65,13 +65,9 @@ class SignIn extends Component {
               <LockIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Enter if you dare
             </Typography>
             <form onSubmit={this.onSubmitClicked} className={this.props.classes.form}>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="email">Email Address</InputLabel>
-                <Input id="email" name="email" autoComplete="email" autoFocus />
-              </FormControl>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="password">Password</InputLabel>
                 <Input
@@ -81,10 +77,6 @@ class SignIn extends Component {
                   autoComplete="current-password"
                 />
               </FormControl>
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
               <Button
                 type="submit"
                 fullWidth
@@ -92,7 +84,7 @@ class SignIn extends Component {
                 color="primary"
                 className={this.props.classes.submit}
               >
-                Sign in
+                Enter
               </Button>
             </form>
           </Paper>

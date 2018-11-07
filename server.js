@@ -4,7 +4,6 @@ const app = express();
 const apiRoutes = require('./routes/api.js');
 const port = process.env.PORT || 5000;
 const path = require('path');
-const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 
 const dbRoute = 'mongodb://dev:jigglypuffsucks1@ds155243.mlab.com:55243/mt-bcoupon';
@@ -21,7 +20,7 @@ mongoose.connect(
 
 const db = mongoose.connection;
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 ////////////////////
