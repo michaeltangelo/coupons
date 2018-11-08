@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockIcon from '@material-ui/icons/LockOutlined';
@@ -17,6 +18,7 @@ const styles = theme => ({
   layout: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
+    marginTop: theme.spacing.unit * 12,
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
@@ -38,7 +40,6 @@ const styles = theme => ({
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing.unit,
   },
   submit: {
     marginTop: theme.spacing.unit * 3,
@@ -69,6 +70,7 @@ class SignIn extends Component {
     password: '',
     loading: false,
     success: false,
+    error: '',
   }
 
   componentDidMount = (props) => {
@@ -88,9 +90,11 @@ class SignIn extends Component {
       this.authenticate(this.state.password)
       .then(res => {
         const authed = res.message === 'ok' ? true : false;
-        this.setState({ loading: false, success: authed });
+        this.setState({ loading: false, success: authed, error: res.errorMsg || '' });
         if (authed) {
           this.props.onAuthSuccess(res.sessionToken);
+        } else {
+          this.setState({ password: '' }); // clear password field
         }
       })
       .catch(err => {
@@ -132,11 +136,8 @@ class SignIn extends Component {
               </Avatar>
               {loading && <CircularProgress size={50} className={this.props.classes.fabProgress} />}
             </div>
-            <Typography component="h3" variant="h5">
-              Password Required
-            </Typography>
             <form onSubmit={this.onSubmitClicked} className={this.props.classes.form}>
-              <FormControl margin="normal" required fullWidth>
+              <FormControl margin="normal" error={this.state.error === '' ? false : true} required fullWidth>
                 <InputLabel htmlFor="password">Password</InputLabel>
                 <Input
                   onChange={this.onPasswordTextChanged}
@@ -144,8 +145,13 @@ class SignIn extends Component {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  value={this.state.password}
                 />
+                <FormHelperText id="component-error-text">{this.state.error && `* ${this.state.error}`}</FormHelperText>
               </FormControl>
+              <Typography>
+
+              </Typography>
               <div className={this.props.classes.wrapper}>
                 <Button
                   type="submit"

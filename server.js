@@ -6,7 +6,10 @@ const port = process.env.PORT || 5000;
 const path = require('path');
 const mongoose = require('mongoose');
 
-const dbRoute = process.env.MONGO_URI || 'mongodb://dev:jigglypuffsucks1@ds155243.mlab.com:55243/mt-bcoupon';
+// Environment setup
+require('dotenv').config();
+
+const dbRoute = process.env.MONGO_URI || 'mongodb://localhost:27017/db';
 
 mongoose.connect(
   dbRoute,

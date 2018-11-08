@@ -33,10 +33,13 @@ routes.post('/verifyToken', (req, res) => {
 
 routes.post('/authenticate', (req, res) => {
   const db = mongoose.connection;
-  // const storedHash = "$2b$10$NlfnFUjiEnnZuSSLR4hDse2OFbl4f5U4G/dq9m//oyOdNA5RQam.O";
-
   db.collection('secret').findOne({}, (err, secret) => {
     if (err) throw err;
+    if (secret === null) {
+      console.log(`Could not locate hash on db: ${db.host}:${db.port}`);
+      res.json({ message: 'fail', errorMsg: 'server error' });
+      return;
+    }
     const storedHash = secret.hash;
     if (bcrypt.compareSync(req.body.password, storedHash)) {
       const time = new Date().toLocaleTimeString();
@@ -52,7 +55,7 @@ routes.post('/authenticate', (req, res) => {
       res.json({ message: 'ok', sessionToken: sessionToken });
     } else {
       console.log('Incorrect password.');
-      res.json({ message: 'fail' });
+      res.json({ message: 'fail', errorMsg: 'invalid password' });
     }
   });
 });

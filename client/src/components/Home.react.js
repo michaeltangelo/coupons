@@ -8,6 +8,7 @@ import { withStyles, withTheme } from '@material-ui/core/styles';
 // import GridListTile from '@material-ui/core/GridListTile';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Navbar from './navbar/Navbar.react';
 
 import Coupon from './coupon/Coupon.react';
 
@@ -18,8 +19,6 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    const { cookies } = this.props;
-
     this.fetchCoupons()
     .then(res => {
       this.setState({ coupons: res.coupons });
@@ -41,27 +40,30 @@ class Home extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.root}>
-        <Typography>
-          {`Our state: ${this.state.coupons}`}
-        </Typography>
-        <Grid className={classes.grid} container spacing={16}>
-          <Grid item xs={12} sm={6} className={classes.gridItemRight}>
-            <Coupon
-                title="bob"
-                description="awpeofjawepf"
-            />
+      <div>
+        <Navbar />
+        <div className={classes.root}>
+          <Typography>
+            {`Our state: ${this.state.coupons}`}
+          </Typography>
+          <Grid className={classes.grid} container spacing={16}>
+            <Grid item xs={12} sm={6} className={classes.gridItemRight}>
+              <Coupon
+                  title="bob"
+                  description="awpeofjawepf"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} className={classes.gridItemLeft}>
+              <Coupon />
+            </Grid>
+            <Grid item xs={12} sm={6} className={classes.gridItemRight}>
+              <Coupon />
+            </Grid>
+            <Grid item xl={12} className={classes.gridItemLeft}>
+              <Coupon />
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6} className={classes.gridItemLeft}>
-            <Coupon />
-          </Grid>
-          <Grid item xs={12} sm={6} className={classes.gridItemRight}>
-            <Coupon />
-          </Grid>
-          <Grid item xl={12} className={classes.gridItemLeft}>
-            <Coupon />
-          </Grid>
-        </Grid>
+        </div>
       </div>
     )
   }
