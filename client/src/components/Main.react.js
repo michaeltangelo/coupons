@@ -95,7 +95,6 @@ class Main extends Component {
       : <Switch>
           <Route
             path='/secret'
-            // component={Signin}
             render={() =>
               <Signin
                 authed={this.state.authed}

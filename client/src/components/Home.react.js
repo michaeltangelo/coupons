@@ -1,11 +1,6 @@
-// import Button from '@material-ui/core/Button';
 import React, { Component } from 'react';
-// import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import PropTypes from 'prop-types';
-// import theme from './../theme';
 import { withStyles, withTheme } from '@material-ui/core/styles';
-// import GridList from '@material-ui/core/GridList';
-// import GridListTile from '@material-ui/core/GridListTile';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Navbar from './navbar/Navbar.react';
@@ -72,12 +67,6 @@ class Home extends Component {
 const styles = theme => ({
   root: {
     spacing: 24,
-    // display: 'flex',
-    // flexWrap: 'wrap',
-    // justifyContent: 'space-around',
-    // overflow: 'hidden',
-    // direction: 'column',
-    // backgroundColor: 'white,
     padding: `0 ${theme.spacing.unit * 3}px`,
   },
   grid: {
@@ -85,13 +74,10 @@ const styles = theme => ({
     direction: 'row',
     alignItems: 'center',
     justify: 'flex-end',
-    // height: 800,
   },
   gridItemRight: {
-    // alignItems: 'flex-start',
   },
   gridItemLeft: {
-    // alignItems: 'flex-start',
   }
 });
 
