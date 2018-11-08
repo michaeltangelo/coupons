@@ -1,3 +1,4 @@
+import FullPageSpinner from './FullPageSpinner.react';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, withTheme } from '@material-ui/core/styles';
@@ -10,13 +11,14 @@ import Coupon from './coupon/Coupon.react';
 // Main coupon scrolling page
 class Home extends Component {
   state = {
+    loading: true,
     coupons: null,
   };
 
   componentDidMount() {
     this.fetchCoupons()
     .then(res => {
-      this.setState({ coupons: res.coupons });
+      this.setState({ coupons: res.coupons, loading: false });
     })
     .catch(err => console.log(err));
   }
@@ -33,7 +35,23 @@ class Home extends Component {
   };
 
   render() {
+    if (this.state.loading) {
+      return <FullPageSpinner />;
+    }
+
     const { classes } = this.props;
+    const couponItems = this.state.coupons.map((coupon) => {
+      return (
+        <Grid item xs={12} sm={6} key={coupon._id}>
+          <Coupon
+            id={coupon._id}
+            title={coupon.title}
+            description={coupon.description}
+            redeemed={coupon.redeemed}
+          />
+        </Grid>
+      );
+    });
     return (
       <div>
         <Navbar />
@@ -42,21 +60,7 @@ class Home extends Component {
             {`Our state: ${this.state.coupons}`}
           </Typography>
           <Grid className={classes.grid} container spacing={16}>
-            <Grid item xs={12} sm={6} className={classes.gridItemRight}>
-              <Coupon
-                  title="bob"
-                  description="awpeofjawepf"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} className={classes.gridItemLeft}>
-              <Coupon />
-            </Grid>
-            <Grid item xs={12} sm={6} className={classes.gridItemRight}>
-              <Coupon />
-            </Grid>
-            <Grid item xl={12} className={classes.gridItemLeft}>
-              <Coupon />
-            </Grid>
+            {couponItems}
           </Grid>
         </div>
       </div>

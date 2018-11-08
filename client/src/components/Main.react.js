@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Catch404 from './Catch404.react';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Home from './Home.react';
-import PropTypes from 'prop-types';
 import Signin from './signin/Signin.react';
+import FullPageSpinner from './FullPageSpinner.react';
 import { withCookies } from 'react-cookie';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 
 import history from './../history';
 
@@ -82,16 +79,16 @@ class Main extends Component {
   }
 
   render() {
-    const { classes } = this.props;
     const { loading } = this.state;
     return (
       (loading === true)
-      ? <div className={classes.root}>
-          <CircularProgress className={classes.spinner}/>
-          <Typography className={classes.loadingText} variant="subtitle1">
-            loading...
-          </Typography>
-        </div>
+      // ? <div className={classes.root}>
+      //     <CircularProgress className={classes.spinner}/>
+      //     <Typography className={classes.loadingText} variant="subtitle1">
+      //       loading...
+      //     </Typography>
+      //   </div>
+      ? <FullPageSpinner />
       : <Switch>
           <Route
             path='/secret'
@@ -116,24 +113,4 @@ class Main extends Component {
   }
 }
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: theme.spacing.unit * 24,
-  },
-  spinner: {
-    marginBottom: theme.spacing.unit * 3,
-  },
-  loadingText: {
-    color: '#BBBBBB',
-  }
-});
-
-Main.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(withCookies(Main));
+export default withCookies(Main);

@@ -3,8 +3,9 @@ const Schema = mongoose.Schema;
 
 const CouponSchema = new Schema(
   {
-    id: Number,
-    message: String
+    message: String,
+    description: String,
+    redeemed: Boolean,
   },
   { timestamps: true }
 );

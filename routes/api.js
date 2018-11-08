@@ -13,8 +13,30 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 routes.get('/coupons', (req, res) => {
+  const db = mongoose.connection;
   console.log('Received request for coupons');
-  res.json({ coupons: 'here are some coupons'});
+  db.collection('coupons').find().toArray((err, coupons) => {
+    if (err) throw err;
+    if (coupons === null) {
+      console.log('Could not retrieve coupons');
+    } else {
+      res.json({ message: 'ok', coupons: coupons});
+    }
+  });
+});
+
+routes.post('/coupon/redeem', (req, res) => {
+  const couponId = req.body.couponId;
+  console.log(`received a request to update coupon with id: ${couponId}`);
+  Coupon.findByIdAndUpdate(couponId, {$set: {redeemed: true}}, (err, coupon) => {
+    if (err) throw err;
+    if (coupon === null) {
+      res.json({ message: 'fail' });
+    } else {
+      console.log(`Successfully updated coupon (${couponId}) in backend`);
+      res.json({ message: 'ok' });
+    }
+  });
 });
 
 routes.post('/verifyToken', (req, res) => {
