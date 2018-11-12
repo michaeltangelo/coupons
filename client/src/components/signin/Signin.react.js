@@ -136,6 +136,9 @@ class SignIn extends Component {
               </Avatar>
               {loading && <CircularProgress size={50} className={this.props.classes.fabProgress} />}
             </div>
+            <Typography variant="h5">
+              Access Restricted
+            </Typography>
             <form onSubmit={this.onSubmitClicked} className={this.props.classes.form}>
               <FormControl margin="normal" error={this.state.error === '' ? false : true} required fullWidth>
                 <InputLabel htmlFor="password">Password</InputLabel>
