@@ -25,10 +25,6 @@ class ConfirmationModal extends React.Component {
     this.setState({ date: e.target.value });
   };
 
-  componentWillReceiveProps = (nextProps) => {
-    console.log(nextProps);
-  }
-
   render() {
     // const today = new Date().toJSON().slice(0,10);
     return (
