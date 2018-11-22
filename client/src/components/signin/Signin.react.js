@@ -63,6 +63,12 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     position: 'relative',
   },
+  background: {
+    color: 'black',
+  },
+  hintText: {
+    alignContent: 'center',
+  }
 });
 
 class SignIn extends Component {

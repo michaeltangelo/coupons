@@ -27,8 +27,10 @@ routes.get('/coupons', (req, res) => {
 
 routes.post('/coupon/redeem', (req, res) => {
   const couponId = req.body.couponId;
-  console.log(`received a request to update coupon with id: ${couponId}`);
-  Coupon.findByIdAndUpdate(couponId, {$set: {redeemed: true}}, (err, coupon) => {
+  const date = req.body.date;
+  const extraDetails = req.body.extraDetails;
+  console.log(`received a request to update coupon with id: ${couponId}, date: ${date}, extraDetails: ${extraDetails}`);
+  Coupon.findByIdAndUpdate(couponId, {$set: {redeemed: true, date: date, extra: extraDetails}}, (err, coupon) => {
     if (err) throw err;
     if (coupon === null) {
       res.json({ message: 'fail' });

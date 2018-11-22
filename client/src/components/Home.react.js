@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, withTheme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import Navbar from './navbar/Navbar.react';
 
 import Coupon from './coupon/Coupon.react';
@@ -56,9 +55,6 @@ class Home extends Component {
       <div>
         <Navbar />
         <div className={classes.root}>
-          <Typography>
-            {`Our state: ${this.state.coupons}`}
-          </Typography>
           <Grid className={classes.grid} container spacing={16}>
             {couponItems}
           </Grid>

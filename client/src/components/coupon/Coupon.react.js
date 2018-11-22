@@ -9,6 +9,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ConfirmationModal from '../ConfirmationModal.react';
 import Typography from '@material-ui/core/Typography';
 
 
@@ -16,32 +17,42 @@ class Coupon extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      modalOpen: false,
       redeemed: props.redeemed,
       loading: false,
       revealClicked: 0,
     };
   }
 
-  handleButtonClick = () => {
-    this.setState({revealClicked: this.state.revealClicked+1});
-    if (this.state.revealClicked >= 1) {
-      this.genRedeemCoupon(this.props.id)
-      .then(res => {
-        if (res.message === 'ok') {
-          this.setState({ redeemed: true, loading: false});
-        }
-      })
-      .catch(err => console.log(err));
-    }
+  handleOpenModal = () => {
+    this.setState({ modalOpen: true });
   }
 
-  genRedeemCoupon = async(couponId) => {
+  handleCloseModal = () => {
+    this.setState({ modalOpen: false });
+  }
+
+  handleRedeemCoupon = (date, extraDetails) => {
+    this.genRedeemCoupon(this.props.id, date, extraDetails)
+    .then(res => {
+      if (res.message === 'ok') {
+        this.setState({ redeemed: true, loading: false});
+      }
+    })
+    .catch(err => console.log(err));
+  }
+
+  genRedeemCoupon = async(couponId, date, extraDetails) => {
     this.setState({ loading: true });
     const response = await fetch('/api/coupon/redeem', {
       method: "POST",
       mode: "cors",
       headers: {"Content-Type": "application/json; charset=utf-8"},
-      body: JSON.stringify({ couponId: couponId }),
+      body: JSON.stringify({
+        couponId: couponId,
+        date: date,
+        extraDetails: extraDetails,
+      }),
     });
     const body = await response.json();
 
@@ -74,51 +85,72 @@ class Coupon extends Component {
       description,
     } = this.props;
 
-    const { loading } = this.state;
+    const { loading, redeemed } = this.state;
 
     return (
-      <Card className={classes.card}>
-        <CardHeader
-          title={title}
+      <div>
+        <ConfirmationModal
+          open={this.state.modalOpen}
+          handleClose={this.handleCloseModal}
+          onConfirmClicked={this.handleRedeemCoupon}
         />
-        <CardContent className={classes.content}>
-          <Typography component="p">
-            {description}
-          </Typography>
-        </CardContent>
-      <CardActions className={classes.actions}>
-        <div className={this.props.classes.wrapper}>
-          <Button
-            onClick={this.handleButtonClick}
-            className={classes.claimButton}
-            variant="contained"
-            size="small"
-            color="primary"
-            disabled={this.state.redeemed}>
-            {this.generateButtonText()}
-          </Button>
-          {loading && <CircularProgress size={24} className={this.props.classes.buttonProgress} />}
-        </div>
-      </CardActions>
-    </Card>
+        <Card className={redeemed ? classes.cardRedeemed : classes.cardValid}>
+          <CardHeader
+            classes={{title: redeemed ? classes.titleRedeemed : classes.titleValid}}
+            title={title}
+          />
+          <CardContent className={classes.content}>
+            <Typography component="p" className={redeemed ? classes.textRedeemed : classes.textValid}>
+              {description}
+            </Typography>
+          </CardContent>
+          <CardActions className={classes.actions}>
+            <div className={this.props.classes.wrapper}>
+              <Button
+                onClick={this.handleOpenModal}
+                className={classes.claimButton}
+                variant="contained"
+                size="small"
+                color="primary"
+                disabled={redeemed}>
+                {this.generateButtonText()}
+              </Button>
+              {loading && <CircularProgress size={24} className={this.props.classes.buttonProgress} />}
+            </div>
+          </CardActions>
+        </Card>
+      </div>
     );
   }
 }
 
 const styles = theme => ({
-  card: {
+  titleRedeemed: {
+    color: '#AAAAAA',
+  },
+  titleValid: {
+    // marginLeft: theme.spacing.unit * 2,
+    // color: '#AAAAAA',
+  },
+  cardRedeemed: {
+    marginTop: 24,
+    padding: 12,
+    color: '#AAAAAA',
+  },
+  cardValid: {
     marginTop: 24,
     // minWidth: 275,
     // maxWidth: '100%',
     padding: 12,
     // maxHeight: 500,
   },
-  content: {
-    // minHeight: 500,
+  textRedeemed: {
+    color: '#AAAAAA',
   },
-  media: {
-    padding: 20,
-    objectFit: 'cover',
+  textValid: {
+  },
+  content: {
+    // textColor: '#AAAAAA',
   },
   actions: {
     marginTop: 50,

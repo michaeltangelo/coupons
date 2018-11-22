@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
-function FullPageSpinner(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <CircularProgress className={classes.spinner}/>
-      <Typography className={classes.loadingText} variant="subtitle1">
-        loading...
-      </Typography>
-    </div>
-  );
+class FullPageSpinner extends Component {
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <CircularProgress className={classes.spinner}/>
+        <Typography className={classes.loadingText} variant="subtitle1">
+          loading...
+        </Typography>
+      </div>
+    );
+  }
 }
 
 const styles = theme => ({

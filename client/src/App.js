@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { CookiesProvider } from 'react-cookie';
-import theme from './theme';
+import themes from './theme';
 // import logofrom './logo.svg';
 import './App.css';
 
@@ -11,7 +11,7 @@ class App extends Component {
   render() {
     return (
       <CookiesProvider>
-        <MuiThemeProvider theme={theme}>
+        <MuiThemeProvider theme={themes}>
           <Main />
         </MuiThemeProvider>
       </CookiesProvider>

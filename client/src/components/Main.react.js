@@ -82,12 +82,6 @@ class Main extends Component {
     const { loading } = this.state;
     return (
       (loading === true)
-      // ? <div className={classes.root}>
-      //     <CircularProgress className={classes.spinner}/>
-      //     <Typography className={classes.loadingText} variant="subtitle1">
-      //       loading...
-      //     </Typography>
-      //   </div>
       ? <FullPageSpinner />
       : <Switch>
           <Route

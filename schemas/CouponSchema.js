@@ -6,6 +6,8 @@ const CouponSchema = new Schema(
     message: String,
     description: String,
     redeemed: Boolean,
+    date: String,
+    extra: String,
   },
   { timestamps: true }
 );
